@@ -1,4 +1,15 @@
+String MyAllowedOrigins = "_myAllowSpecificOrigins";
+
+
+// Cors Configuration
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(option=>{
+    option.AddPolicy(name:MyAllowedOrigins, builder=>{
+        builder.WithOrigins("http://localhost:3000","*");
+    });
+})
+
+;
 
 // Add services to the container.
 
@@ -7,7 +18,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 var app = builder.Build();
+
+// Cors implementation
+app.UseCors(MyAllowedOrigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
